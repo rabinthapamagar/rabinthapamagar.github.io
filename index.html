@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Portfolio</title>
+    <style>
+        .main {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <img
+         height="100"
+         width = "100"
+         id ="profileImage"
+    >
+
+    <h2 id= "fullName">
+    </h2>
+        <p id="bio"> </p>
+        <h5 id="followersInformation"> </h5>
+        <p>
+            Check me on <a id="githubLink">Github</a>
+        </p>
+    <p>
+        My Projects <a id="repositoriesLink"></a>
+    </p>
+    <h6 id="reposInformation"> </h6>
+    <h7 id ="reposInfo"> </h7>
+
+
+
+</div>
+
+<script>
+    fetch("https://api.github.com/users/rabinthapamagar")
+          .then(response => response.json())
+          .then(function(data) {
+            console.log(data)
+
+              let followersCount = data['followers']
+              let followersInfo = 'I have been followed by ' + followersCount +' people on github'
+
+              document.getElementById('profileImage').src = data['avatar_url']
+              document.getElementById('fullName').textContent=data['name']
+              document.getElementById('bio').textContent=data['bio']
+              document.getElementById('followersInformation').textContent=followersInfo
+
+              document.getElementById('githubLink').href=data['html_url']
+
+
+    })
+</script>
+
+<script>
+    fetch("https://api.github.com/users/rabinthapamagar/repos")
+        .then(response =>response.json())
+        .then(function(data){
+            console.log(data)
+            let m = data.length;
+            var n = parseInt(m);
+            let repoName = "";
+            for(i = 0;i < n; i++ )
+            {
+                repoName += " Repositary " + i +" "+ data[i]['name'] +"<br>"+ "<br>";
+            }
+            document.getElementById('reposInfo').innerHTML = repoName
+        })
+</script>
+
+
+
+
+
+</body>
+</html>
